@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Dark blue theme - primary colors */
+    --background: 221 70% 8%; /* #0a0f1e - very dark blue */
+    --foreground: 218 15% 84%; /* #d1d5db - light gray text */
+
+    --card: 221 49% 14%; /* #1a2035 - chat/sidebar bg */
+    --card-foreground: 218 15% 84%;
+
+    --popover: 221 49% 14%;
+    --popover-foreground: 218 15% 84%;
+
+    --primary: 217 91% 60%; /* #3b82f6 - accent blue */
+    --primary-foreground: 218 15% 84%;
+
+    --secondary: 225 24% 25%; /* #33384e - user message bubble */
+    --secondary-foreground: 218 15% 84%;
+
+    --muted: 221 49% 14%;
+    --muted-foreground: 218 15% 65%;
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 218 15% 84%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 218 15% 84%;
+
+    --border: 221 30% 20%;
+    --input: 221 30% 20%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --chat-bg: 221 49% 14%; /* #1a2035 */
+    --user-bubble: 225 24% 25%; /* #33384e */
+    --ai-bubble: 221 49% 14%; /* Same as chat bg */
+    --glow-primary: 217 91% 60% / 0.3;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Enhanced shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+
+    --sidebar-background: 221 49% 14%;
+    --sidebar-foreground: 218 15% 84%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 218 15% 84%;
+    --sidebar-accent: 221 30% 20%;
+    --sidebar-accent-foreground: 218 15% 84%;
+    --sidebar-border: 221 30% 20%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .light {
+    /* Light theme - white and blue */
+    --background: 0 0% 100%; /* #ffffff - pure white */
+    --foreground: 222 84% 5%; /* #0f172a - very dark blue text */
+
+    --card: 0 0% 98%; /* #fafafa - off-white */
+    --card-foreground: 222 84% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+
+    --primary: 217 91% 60%; /* #3b82f6 - bright blue */
+    --primary-foreground: 0 0% 100%; /* #ffffff - white text on blue */
+
+    --secondary: 210 40% 96%; /* #f1f5f9 - light blue-gray */
+    --secondary-foreground: 222 84% 5%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%; /* #64748b - muted text */
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%; /* #e2e8f0 - light blue border */
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens for light mode */
+    --chat-bg: 0 0% 98%; /* #fafafa */
+    --user-bubble: 217 91% 60%; /* #3b82f6 - blue for user messages */
+    --ai-bubble: 0 0% 98%; /* #fafafa - light background for AI */
+    --glow-primary: 217 91% 60% / 0.2;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Enhanced shadows for light mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.15);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 222 84% 5%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 84% 5%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* RTL Support for Arabic */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  /* Improve Arabic font rendering */
+  *:lang(ar) {
+    font-family: 'Cairo', 'Inter', sans-serif;
+    letter-spacing: 0;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent;
+  }
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 1000px 100%;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+  animation: gradient-shift 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
+}
+
+/* Enhanced visual effects */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-primary {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, textarea, select {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improved focus states */
+:focus-visible {
+  outline: 2px solid hsl(217, 91%, 60%);
+  outline-offset: 2px;
+}
+
+/* Custom hover effects */
+@media (hover: hover) {
+  button:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+}

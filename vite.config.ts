@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "localhost",
     port: 8080,
-    historyApiFallback: { index: "/index.html/chat" },
+    historyApiFallback: { index: "/chat/" },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

@@ -165,10 +165,10 @@ const ChatInterface = () => {
                       className="max-w-sm"
                     >
                       <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-1 sm:mb-2">
-                        شركة ناصر بن طريّد
+                      شركة ناصر بن طريّد وشركاؤه 
                       </h1>
                       <h2 className="text-base sm:text-xl font-semibold text-primary mb-3 sm:mb-6">
-                        استشارات قانونية
+                        للمحاماة والاستشارات القانونية
                       </h2>
                     </motion.div>
                     

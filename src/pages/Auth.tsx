@@ -31,7 +31,7 @@ const Auth = () => {
         if (error) {
           toast.error(error.message);
         } else {
-          toast.success('Account created! You can now sign in.');
+          toast.success('تم إنشاء الحساب! يمكنك الآن تسجيل الدخول.');
           setIsSignUp(false);
         }
       } else {
@@ -42,14 +42,14 @@ const Auth = () => {
 
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
-            toast.error('Invalid email or password');
+            toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
           } else {
             toast.error(error.message);
           }
         }
       }
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      toast.error('حدث خطأ غير متوقع');
     } finally {
       setIsLoading(false);
     }
@@ -85,14 +85,14 @@ const Auth = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <CardTitle className="text-3xl font-bold text-foreground">
-                {isSignUp ? 'Create Account' : 'مرحباً بك'}
-              </CardTitle>
-              <CardDescription className="text-muted-foreground text-base mt-2">
-                {isSignUp 
-                  ? 'Access Saudi Bankruptcy Law AI Assistant' 
-                  : 'نظام الإفلاس السعودي - مساعد قانوني ذكي'}
-              </CardDescription>
+               <CardTitle className="text-3xl font-bold text-foreground">
+                 {isSignUp ? 'إنشاء حساب' : 'مرحباً بك'}
+               </CardTitle>
+               <CardDescription className="text-muted-foreground text-base mt-2">
+                 {isSignUp
+                   ? 'الوصول إلى مساعد قانون الإفلاس السعودي الذكي'
+                   : 'نظام الإفلاس السعودي - مساعد قانوني ذكي'}
+               </CardDescription>
             </motion.div>
           </CardHeader>
           <CardContent>
@@ -109,16 +109,16 @@ const Auth = () => {
                 transition={{ delay: 0.5 }}
                 className="space-y-2"
               >
-                <Label htmlFor="email" className="text-foreground">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="bg-background border-border focus:border-primary transition-all"
-                />
+                 <Label htmlFor="email" className="text-foreground">البريد الإلكتروني</Label>
+                 <Input
+                   id="email"
+                   type="email"
+                   placeholder="you@example.com"
+                   value={email}
+                   onChange={(e) => setEmail(e.target.value)}
+                   required
+                   className="bg-background border-border focus:border-primary transition-all"
+                 />
               </motion.div>
               <motion.div 
                 initial={{ x: -20, opacity: 0 }}
@@ -126,16 +126,16 @@ const Auth = () => {
                 transition={{ delay: 0.6 }}
                 className="space-y-2"
               >
-                <Label htmlFor="password" className="text-foreground">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="bg-background border-border focus:border-primary transition-all"
-                />
+                 <Label htmlFor="password" className="text-foreground">كلمة المرور</Label>
+                 <Input
+                   id="password"
+                   type="password"
+                   placeholder="••••••••"
+                   value={password}
+                   onChange={(e) => setPassword(e.target.value)}
+                   required
+                   className="bg-background border-border focus:border-primary transition-all"
+                 />
               </motion.div>
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -144,13 +144,13 @@ const Auth = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (isSignUp ? 'Creating account...' : 'Signing in...') : (isSignUp ? 'Sign Up' : 'Sign In')}
-                </Button>
+                 <Button
+                   type="submit"
+                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
+                   disabled={isLoading}
+                 >
+                   {isLoading ? (isSignUp ? 'جاري إنشاء الحساب...' : 'جاري تسجيل الدخول...') : (isSignUp ? 'إنشاء حساب' : 'تسجيل الدخول')}
+                 </Button>
               </motion.div>
             </motion.form>
             
@@ -160,15 +160,15 @@ const Auth = () => {
               transition={{ delay: 0.8 }}
               className="mt-4 text-center"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="button"
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
-              </motion.button>
+               <motion.button
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 type="button"
+                 onClick={() => setIsSignUp(!isSignUp)}
+                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
+               >
+                 {isSignUp ? 'لديك حساب بالفعل؟ تسجيل الدخول' : "ليس لديك حساب؟ إنشاء حساب"}
+               </motion.button>
             </motion.div>
           </CardContent>
         </Card>

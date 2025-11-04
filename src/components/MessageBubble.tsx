@@ -61,11 +61,11 @@ const MessageBubble = ({ message, onRetry }: MessageBubbleProps) => {
          <motion.div
            whileHover={!isMobile ? { scale: 1.02, y: -2 } : {}}
            transition={{ duration: 0.2 }}
-            className={`relative group w-full rounded-3xl px-3 sm:px-4 py-2.5 sm:py-3 shadow-lg backdrop-blur-sm transition-all duration-300 ${
-              isUser
-                ? 'sm:max-w-xl bg-primary text-primary-foreground rounded-br-lg shadow-primary/20'
-                : 'sm:max-w-4xl bg-card text-card-foreground border border-border rounded-bl-lg shadow-sm'
-            } ${isMobile ? 'max-w-[calc(100vw-80px)]' : ''}`}
+             className={`relative group w-fit max-w-full rounded-3xl px-3 sm:px-4 py-2.5 sm:py-3 shadow-lg backdrop-blur-sm transition-all duration-300 ${
+               isUser
+                 ? 'max-w-xs bg-primary text-primary-foreground rounded-br-lg shadow-primary/20'
+                 : 'max-w-lg bg-card text-card-foreground border border-border rounded-bl-lg shadow-sm'
+             } ${isMobile ? '' : ''}`}
          >
             <div className={`prose dark:prose-invert ${isMobile ? 'prose-sm' : 'prose-base'} max-w-none overflow-hidden`}>
               {!isUser ? (

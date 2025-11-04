@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { motion } from 'framer-motion';
 import { Message } from '@/types/chat';
@@ -15,29 +15,19 @@ interface MessageBubbleProps {
 
 const MessageBubble = ({ message, onRetry }: MessageBubbleProps) => {
   const [isCopied, setIsCopied] = useState(false);
-  const [displayedContent, setDisplayedContent] = useState('');
   const isUser = message.type === 'human';
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  useEffect(() => {
-    if (isUser) {
-      setDisplayedContent(message.content);
-    } else {
-      // Typing effect for AI messages
-      let index = 0;
-      const content = message.content;
-      const timer = setInterval(() => {
-        if (index < content.length) {
-          setDisplayedContent(content.slice(0, index + 1));
-          index++;
-        } else {
-          clearInterval(timer);
-        }
-      }, 20); // Adjust speed as needed
-
-      return () => clearInterval(timer);
-    }
-  }, [message.content, isUser]);
+  const formatAIContent = (content: string) => {
+    return content.split('\n').map(line => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('المادة') || trimmed.startsWith('الفقرة') || trimmed.startsWith('البند') || trimmed.match(/^\d+\./)) {
+        return `## ${trimmed}`;
+      } else {
+        return trimmed;
+      }
+    }).join('\n');
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content);
@@ -78,38 +68,68 @@ const MessageBubble = ({ message, onRetry }: MessageBubbleProps) => {
             } ${isMobile ? 'max-w-[calc(100vw-80px)]' : ''}`}
          >
             <div className={`prose dark:prose-invert ${isMobile ? 'prose-sm' : 'prose-base'} max-w-none overflow-hidden`}>
-              <ReactMarkdown
-                components={{
-                  p: ({ children }) => <p className="mb-1.5 sm:mb-2 last:mb-0 leading-relaxed text-sm sm:text-base">{children}</p>,
-                  ul: ({ children }) => <ul className="list-disc list-inside mb-1.5 sm:mb-2 space-y-0.5 sm:space-y-1 text-sm sm:text-base">{children}</ul>,
-                  ol: ({ children }) => <ol className="list-decimal list-inside mb-1.5 sm:mb-2 space-y-0.5 sm:space-y-1 text-sm sm:text-base">{children}</ol>,
-                  li: ({ children }) => <li className="leading-relaxed text-sm sm:text-base">{children}</li>,
-                  code: ({ className, children }) => {
-                    const isInline = !className;
-                    return isInline ? (
-                      <code className={`px-1.5 py-0.5 rounded text-xs font-mono ${isUser ? 'bg-primary/30 text-primary-foreground/90' : 'bg-muted text-accent-foreground'}`}>
+              {!isUser ? (
+                <ReactMarkdown
+                  components={{
+                    p: ({ children }) => <p className="mb-3 leading-relaxed text-justify text-sm sm:text-base">{children}</p>,
+                    ul: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-1 text-sm sm:text-base">{children}</ul>,
+                    ol: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-1 text-sm sm:text-base">{children}</ol>,
+                    li: ({ children }) => <li className="leading-relaxed text-sm sm:text-base">{children}</li>,
+                    code: ({ className, children }) => {
+                      const isInline = !className;
+                      return isInline ? (
+                        <code className="px-1.5 py-0.5 rounded text-xs font-mono bg-muted text-accent-foreground">
+                          {children}
+                        </code>
+                      ) : (
+                        <code className="block p-2 rounded-lg text-xs font-mono overflow-x-auto bg-muted">
+                          {children}
+                        </code>
+                      );
+                    },
+                    h1: ({ children }) => <h1 className="text-lg sm:text-xl font-bold mb-3 mt-4 text-primary">{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-base sm:text-lg font-bold mb-3 mt-4 text-primary">{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-sm sm:text-base font-semibold mb-2 mt-3 text-primary">{children}</h3>,
+                    a: ({ children }) => (
+                      <a href={href} className="hover:underline text-sm sm:text-base text-primary underline" target="_blank" rel="noopener noreferrer">
                         {children}
-                      </code>
-                    ) : (
-                      <code className={`block p-2 rounded-lg text-xs font-mono overflow-x-auto ${isUser ? 'bg-primary/20' : 'bg-muted'}`}>
+                      </a>
+                    ),
+                  }}
+                >
+                  {formatAIContent(message.content)}
+                </ReactMarkdown>
+              ) : (
+                <ReactMarkdown
+                  components={{
+                    p: ({ children }) => <p className="mb-1.5 sm:mb-2 last:mb-0 leading-relaxed text-sm sm:text-base">{children}</p>,
+                    ul: ({ children }) => <ul className="list-disc list-inside mb-1.5 sm:mb-2 space-y-0.5 sm:space-y-1 text-sm sm:text-base">{children}</ul>,
+                    ol: ({ children }) => <ol className="list-decimal list-inside mb-1.5 sm:mb-2 space-y-0.5 sm:space-y-1 text-sm sm:text-base">{children}</ol>,
+                    li: ({ children }) => <li className="leading-relaxed text-sm sm:text-base">{children}</li>,
+                    code: ({ className, children }) => {
+                      const isInline = !className;
+                      return isInline ? (
+                        <code className="px-1.5 py-0.5 rounded text-xs font-mono bg-primary/30 text-primary-foreground/90">
+                          {children}
+                        </code>
+                      ) : (
+                        <code className="block p-2 rounded-lg text-xs font-mono overflow-x-auto bg-primary/20">
+                          {children}
+                        </code>
+                      );
+                    },
+                    h1: ({ children }) => <h1 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 mt-2 sm:mt-3">{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-sm sm:text-lg font-semibold mb-1 sm:mb-1.5 mt-1.5 sm:mt-2.5">{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1 sm:mb-1.5 mt-1 sm:mt-2">{children}</h3>,
+                    a: ({ children }) => (
+                      <a href={href} className="hover:underline text-xs sm:text-base text-primary-foreground underline" target="_blank" rel="noopener noreferrer">
                         {children}
-                      </code>
-                    );
-                  },
-                  h1: ({ children }) => <h1 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 mt-2 sm:mt-3">{children}</h1>,
-                  h2: ({ children }) => <h2 className="text-sm sm:text-lg font-semibold mb-1 sm:mb-1.5 mt-1.5 sm:mt-2.5">{children}</h2>,
-                  h3: ({ children }) => <h3 className="text-sm font-medium mb-1 sm:mb-1.5 mt-1 sm:mt-2">{children}</h3>,
-                  a: ({ href, children }) => (
-                    <a href={href} className={`hover:underline text-xs sm:text-base ${isUser ? 'text-primary-foreground underline' : 'text-primary underline'}`} target="_blank" rel="noopener noreferrer">
-                      {children}
-                    </a>
-                  ),
-                }}
-              >
-                {displayedContent}
-              </ReactMarkdown>
-              {!isUser && displayedContent !== message.content && (
-                <span className="animate-pulse text-primary">|</span>
+                      </a>
+                    ),
+                  }}
+                >
+                  {message.content}
+                </ReactMarkdown>
               )}
             </div>
            

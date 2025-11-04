@@ -58,6 +58,13 @@ const ChatInterface = () => {
     }
   };
 
+  const handleDeleteConversation = async (sessionIdToDelete: string) => {
+    await deleteConversation(sessionIdToDelete);
+    if (sessionIdToDelete === sessionId) {
+      handleNewChat();
+    }
+  };
+
   return (
     <div className="flex h-screen w-full bg-background text-foreground">
       {!isMobile && (
@@ -65,6 +72,7 @@ const ChatInterface = () => {
           currentSessionId={sessionId}
           onNewChat={handleNewChat}
           onSelectConversation={handleSelectConversation}
+          onDeleteConversation={handleDeleteConversation}
           onLogout={handleLogout}
           isCollapsed={isSidebarCollapsed}
           onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -89,6 +97,7 @@ const ChatInterface = () => {
                         currentSessionId={sessionId}
                         onNewChat={handleNewChatAndCloseSheet}
                         onSelectConversation={handleSelectConversationAndCloseSheet}
+                        onDeleteConversation={handleDeleteConversation}
                         onLogout={handleLogout}
                         isCollapsed={false}
                         onToggleCollapse={() => setIsSheetOpen(false)}
@@ -189,7 +198,7 @@ const ChatInterface = () => {
                     >
                       <p className="text-xs text-muted-foreground/80 uppercase tracking-widest mb-1">أمثلة:</p>
                       <div className="flex flex-col gap-2 justify-center w-full px-2">
-                        {['ما هي إجراءات الإفلاس في السعودية؟', 'كيف أتقدم بطلب إفلاس؟', 'ما هي حقوق الدائنين في الإفلاس؟'].map((example, idx) => (
+                        {['ما هي إجراءات الإفلاس في السعودية؟', 'ما هي حقوق الدائنين في الإفلاس؟'].map((example, idx) => (
                           <motion.button
                             key={idx}
                             initial={{ opacity: 0, scale: 0.8 }}

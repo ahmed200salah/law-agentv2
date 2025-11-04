@@ -5,10 +5,10 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "regions": ["fra1"],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/chat"
     }
   ]
 }

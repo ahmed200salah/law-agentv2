@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { useChat } from '@/hooks/useChat';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { Button } from '@/components/ui/button';
-import { Menu, X, Send, Bot, User, Sun, Moon } from 'lucide-react';
+ import { Button } from '@/components/ui/button';
+ import { Menu, X, Send, Bot, User, Sun, Moon, Heart } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 import ChatInput from './ChatInput';
 import LoadingIndicator from './LoadingIndicator';
@@ -240,12 +240,18 @@ const ChatInterface = () => {
            </div>
          </ScrollArea>
 
-         <div className="px-2 sm:px-6 py-3 sm:py-4 bg-card/50 border-t border-border backdrop-blur-lg flex-shrink-0">
-           <div className="w-full mx-auto">
-             <ChatInput onSend={handleSendMessage} disabled={isLoading} />
-           </div>
-         </div>
-      </div>
+          <div className="px-2 sm:px-6 py-3 sm:py-4 bg-card/50 border-t border-border backdrop-blur-lg flex-shrink-0">
+            <div className="w-full mx-auto">
+              <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+            </div>
+          </div>
+
+          <div className="text-center text-xs text-muted-foreground py-2 bg-card/50 border-t border-border backdrop-blur-lg">
+            <a href="mailto:contact@aiorbit-ai.com" className="hover:text-primary transition-colors">
+              Made by AI Orbit <Heart className="inline w-4 h-4 text-red-500" />
+            </a>
+          </div>
+       </div>
     </div>
   );
 };
